@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,30 +36,18 @@ public class OrderController {
   /**
    * Product Service.
    */
+  @Autowired
   private ProductService productService;
   /**
    * Order Service.
    */
+  @Autowired
   private OrderService orderService;
   /**
    * Order Product Service.
    */
+  @Autowired
   private OrderProductService orderProductService;
-
-  /**
-   * Order controller constructor.
-   *
-   * @param pProductService
-   * @param pOrderService
-   * @param pOrderProductService
-   */
-  public OrderController(final ProductService pProductService,
-      final OrderService pOrderService,
-      final OrderProductService pOrderProductService) {
-    this.productService = pProductService;
-    this.orderService = pOrderService;
-    this.orderProductService = pOrderProductService;
-  }
 
   /**
    * Get all of order.
