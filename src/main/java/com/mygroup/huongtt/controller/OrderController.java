@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +50,6 @@ public class OrderController {
   @Autowired
   private OrderProductService orderProductService;
 
-  /**
    * Get all of order.
    *
    * @return Iterator of {@link Order}
