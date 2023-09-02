@@ -5,9 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 @Entity
+@Data
+@AllArgsConstructor
+@Table(name = "Order_Items")
 public class OrderProduct {
 
   @EmbeddedId

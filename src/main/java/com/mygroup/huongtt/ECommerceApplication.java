@@ -5,8 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.mygroup.huongtt.dto.SignUpForm;
 import com.mygroup.huongtt.model.Product;
 import com.mygroup.huongtt.service.ProductService;
+import com.mygroup.huongtt.service.UserService;
 
 @SpringBootApplication
 public class ECommerceApplication {
@@ -16,7 +18,8 @@ public class ECommerceApplication {
   }
 
   @Bean
-  CommandLineRunner runner(ProductService productService) {
+  CommandLineRunner runner(ProductService productService,
+      UserService userService) {
     return args -> {
       productService.save(
           new Product(1L, "TV Set", 300.00, "http://placehold.it/200x100"));
@@ -32,6 +35,8 @@ public class ECommerceApplication {
           new Product(6L, "Phone", 500.00, "http://placehold.it/200x100"));
       productService
           .save(new Product(7L, "Watch", 30.00, "http://placehold.it/200x100"));
+      userService.create(new SignUpForm("huongtt", "huongtt@gmail.com",
+          "123123", "huong", "dep trai", "0123123123"));
     };
   }
 

@@ -4,6 +4,11 @@ import com.mygroup.huongtt.model.Product;
 
 public class OrderProductDto {
 
+  public OrderProductDto(Product product, Integer quantity) {
+    this.product = product;
+    this.quantity = quantity;
+  }
+
   private Product product;
   private Integer quantity;
 

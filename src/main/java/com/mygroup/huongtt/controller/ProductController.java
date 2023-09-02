@@ -1,5 +1,6 @@
 package com.mygroup.huongtt.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,11 +14,8 @@ import jakarta.validation.constraints.NotNull;
 @RequestMapping("/api/products")
 public class ProductController {
 
+  @Autowired
   private ProductService productService;
-
-  public ProductController(ProductService productService) {
-    this.productService = productService;
-  }
 
   @GetMapping(value = { "", "/" })
   public @NotNull Iterable<Product> getProducts() {

@@ -5,25 +5,24 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
-  @SuppressWarnings("rawtypes")
-  @ExceptionHandler(ConstraintViolationException.class)
-  public ResponseEntity<ErrorResponse> handle(ConstraintViolationException e) {
+  @ExceptionHandler({ MethodArgumentNotValidException.class })
+  public ResponseEntity<ErrorResponse> handle(
+      MethodArgumentNotValidException e) {
     ErrorResponse errors = new ErrorResponse();
-    for (ConstraintViolation violation : e.getConstraintViolations()) {
+    for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
       ErrorItem error = new ErrorItem();
-      error.setCode(violation.getMessageTemplate());
-      error.setMessage(violation.getMessage());
+      error.setCode(fieldError.getField());
+      error.setMessage(fieldError.getDefaultMessage());
       errors.addError(error);
     }
 

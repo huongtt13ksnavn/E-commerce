@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,10 +28,12 @@ import com.mygroup.huongtt.service.OrderProductService;
 import com.mygroup.huongtt.service.OrderService;
 import com.mygroup.huongtt.service.ProductService;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/api/orders")
+@Validated
 public class OrderController {
 
   /**
@@ -67,7 +70,8 @@ public class OrderController {
    * @return ResponseEntity {@link Order}
    */
   @PostMapping
-  public ResponseEntity<Order> create(final @RequestBody OrderForm form) {
+  public ResponseEntity<Order> create(
+      final @RequestBody @Valid OrderForm form) {
     List<OrderProductDto> formDtos = form.getProductOrders();
     validateProductsExistence(formDtos);
     Order order = new Order();
@@ -110,6 +114,7 @@ public class OrderController {
     /**
      * List of ordered product.
      */
+    @NotNull(message = "productOrders is not null")
     private List<OrderProductDto> productOrders;
 
     /**
