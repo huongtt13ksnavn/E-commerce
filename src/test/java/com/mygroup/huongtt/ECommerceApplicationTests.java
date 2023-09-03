@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.mygroup.huongtt.controller.OrderController;
 import com.mygroup.huongtt.controller.ProductController;
+import com.mygroup.huongtt.controller.UserController;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -20,10 +21,14 @@ class ECommerceApplicationTests {
   @Autowired
   OrderController orderController;
 
+  @Autowired
+  UserController userController;
+
   @Test
   void contextLoads() {
     assertThat(productController).isNotNull();
     assertThat(orderController).isNotNull();
-  }
 
+    assertThat(userController).isNotNull();
+  }
 }
