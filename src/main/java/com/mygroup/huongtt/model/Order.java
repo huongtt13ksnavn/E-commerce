@@ -1,7 +1,6 @@
 package com.mygroup.huongtt.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -16,11 +15,15 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name = "orders")
+@AllArgsConstructor
+@NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "orderProducts")
 public class Order {
 
@@ -35,7 +38,7 @@ public class Order {
 
   @OneToMany(mappedBy = "pk.order")
   @Valid
-  private List<OrderProduct> orderProducts = new ArrayList<>();
+  private List<OrderProduct> orderProducts;
 
   @Transient
   public Double getTotalOrderPrice() {
