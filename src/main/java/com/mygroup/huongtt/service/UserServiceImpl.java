@@ -3,9 +3,11 @@ package com.mygroup.huongtt.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.mygroup.huongtt.dto.ChangePasswordForm;
+import com.mygroup.huongtt.dto.PageRequestDto;
 import com.mygroup.huongtt.dto.SignUpForm;
 import com.mygroup.huongtt.exception.ResourceNotFoundException;
 import com.mygroup.huongtt.model.User;
@@ -23,8 +25,8 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public Iterable<User> findAll() {
-    return userRepository.findAll();
+  public Page<User> findAll(PageRequestDto pageRequestDto) {
+    return userRepository.findAll(pageRequestDto.transformToPageable());
   }
 
   @Override

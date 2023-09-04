@@ -24,6 +24,7 @@ import com.mygroup.huongtt.exception.ResourceNotFoundException;
 import com.mygroup.huongtt.model.Order;
 import com.mygroup.huongtt.model.OrderProduct;
 import com.mygroup.huongtt.model.OrderStatus;
+import com.mygroup.huongtt.model.User;
 import com.mygroup.huongtt.service.OrderProductService;
 import com.mygroup.huongtt.service.OrderService;
 import com.mygroup.huongtt.service.ProductService;
@@ -76,6 +77,8 @@ public class OrderController {
     validateProductsExistence(formDtos);
     Order order = new Order();
     order.setStatus(OrderStatus.PAID.name());
+    order.setUser(new User(1, "huongtt@gmail.com", "huongtt", "123123",
+        "Uchiha", "Itachi", "0123123123", false));
     order = this.orderService.create(order);
 
     List<OrderProduct> orderProducts = new ArrayList<>();

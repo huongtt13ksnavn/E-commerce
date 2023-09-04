@@ -1,5 +1,6 @@
 package com.mygroup.huongtt.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -8,8 +9,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
@@ -18,6 +17,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -55,17 +56,15 @@ public class UserControllerTest {
   /**
    * List of user for testing.
    */
-  private List<User> listUser;
+  private Page<User> pageUser;
 
   /**
    * Initial data.
    */
   @BeforeEach
   public void init() {
-    if (Objects.isNull(listUser)) {
-      listUser = Arrays.asList(new User(1, "huongtt@gmail.com", "huongtt",
-          "123123", "Uchiha", "Itachi", "0123123123", false));
-    }
+    pageUser = new PageImpl<>(Arrays.asList(new User(1, "huongtt@gmail.com",
+        "huongtt", "123123", "Uchiha", "Itachi", "0123123123", false)));
   }
 
   /**
@@ -81,7 +80,7 @@ public class UserControllerTest {
    */
   @Test
   public void whenReadAllThenStatusIsOkAndSizeEquality() throws Exception {
-    when(userService.findAll()).thenReturn(listUser);
+    when(userService.findAll(any())).thenReturn(pageUser);
     this.mockMvc.perform(get("/api/users").accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", Matchers.hasSize(1)));
