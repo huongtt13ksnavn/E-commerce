@@ -11,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -39,6 +41,10 @@ public class Order {
   @OneToMany(mappedBy = "pk.order")
   @Valid
   private List<OrderProduct> orderProducts;
+
+  @ManyToOne(optional = false)
+  @JoinColumn(name = "user_id", nullable = false, updatable = false)
+  public User user;
 
   @Transient
   public Double getTotalOrderPrice() {

@@ -9,8 +9,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,6 +30,7 @@ import com.mygroup.huongtt.model.Order;
 import com.mygroup.huongtt.model.OrderProduct;
 import com.mygroup.huongtt.model.OrderStatus;
 import com.mygroup.huongtt.model.Product;
+import com.mygroup.huongtt.model.User;
 import com.mygroup.huongtt.service.OrderProductService;
 import com.mygroup.huongtt.service.OrderService;
 import com.mygroup.huongtt.service.ProductService;
@@ -50,6 +53,22 @@ public class OrderControllerTest {
   @Autowired
   private ObjectMapper objectMapper;
 
+  /**
+   * User for testing.
+   */
+  private User user;
+
+  /**
+   * Initial data.
+   */
+  @BeforeEach
+  public void init() {
+    if (Objects.isNull(user)) {
+      user = new User(1, "huongtt@gmail.com", "huongtt", "123123", "Uchiha",
+          "Itachi", "0123123123", false);
+    }
+  }
+
   @Test()
   public void whenReadAll_thenStatusIsOkAndSizeEquality() throws Exception {
 
@@ -57,7 +76,7 @@ public class OrderControllerTest {
     List<OrderProduct> singletonListOrderProduct = Collections.singletonList(
         new OrderProduct(order, new Product(1l, "Pr01", 100000d, "Url"), 100));
     List<Order> singletonListOrder = Collections.singletonList(new Order(1l,
-        null, OrderStatus.PAID.name(), singletonListOrderProduct));
+        null, OrderStatus.PAID.name(), singletonListOrderProduct, user));
 
     when(orderService.getAllOrders()).thenReturn(singletonListOrder);
 
@@ -70,8 +89,9 @@ public class OrderControllerTest {
   public void whenAddAnOrder_thenStatusIsCreatedAndTypedAssertion()
       throws Exception {
 
-    Order order = new Order(null, null, OrderStatus.PAID.name(), null);
+    Order order = new Order(null, null, OrderStatus.PAID.name(), null, user);
     Product product = new Product(1l, "Pr01", 100000d, "Url");
+    when(orderService.create(order)).thenReturn(order);
 
     OrderProduct orderProduct = new OrderProduct(order, product, 100);
 
@@ -80,7 +100,6 @@ public class OrderControllerTest {
     OrderForm orderForm = new OrderController.OrderForm();
     orderForm.setProductOrders(singletonListInput);
 
-    when(orderService.create(order)).thenReturn(order);
     when(orderProductService.create(orderProduct)).thenReturn(orderProduct);
     when(productService.getProduct(product.getId())).thenReturn(product);
 
